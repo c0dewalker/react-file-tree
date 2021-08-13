@@ -1,4 +1,4 @@
-const API_URL = 'http://164.90.161.80:3000/api/content'
+const API_URL = 'https://w-r-s.herokuapp.com/api'
 
 export const apiService = async (id) => {
   const queryParam = id ? `?dirId=${id}` : ''
