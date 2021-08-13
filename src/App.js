@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import {useEffect} from 'react'
+import {apiService} from './apiService'
+import {Node} from './Node'
+import {useTree} from './useTree'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App = () => {
+  const [tree, initializeTree, addChildrenToNode] = useTree()
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const rootNode = await apiService()
+      if (rootNode) {
+        initializeTree(rootNode)
+      }
+    }
+    fetchInitialData()
+  }, [initializeTree])
+
+  return <>
+    {tree && tree?.children.map(node => <Node key={node.id} node={node} addChildrenToNode={addChildrenToNode}/>)}
+  </>
 }
-
-export default App;
